@@ -253,6 +253,32 @@
     -fx-background-color: #616161;
 }
 
+/* ── Пострадавшие ───────────────────────────────────────────────── */
+.victims-check {
+    -fx-font-size: 13px;
+    -fx-text-fill: #b71c1c;
+    -fx-font-weight: bold;
+}
+
+.victims-spinner {
+    -fx-pref-width: 90px;
+}
+
+/* ── Кнопка PDF ─────────────────────────────────────────────────── */
+.btn-pdf {
+    -fx-background-color: #e53935;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-padding: 10 20;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+
+.btn-pdf:hover {
+    -fx-background-color: #b71c1c;
+}
+
 /* ── Подвал ─────────────────────────────────────────────────────── */
 .footer-box {
     -fx-background-color: #e8eaf6;

@@ -1,6 +1,5 @@
 package com.emergencydispatcher.pipeline;
 
-import com.emergencydispatcher.config.UrgencyScaleConfig;
 import com.emergencydispatcher.db.DatabaseManager;
 import com.emergencydispatcher.handler.GreenHandler;
 import com.emergencydispatcher.handler.RedHandler;
@@ -47,7 +46,7 @@ public class DispatchRoutingFilter implements Filter<IncidentReport> {
             throw new FilterException("Ошибка записи в базу данных (incident_report).");
         }
 
-        // 2. Определяем приоритет
+        // 2. Определяем приоритет (уже вычислен в UrgencyClassificationFilter)
         Appeal.Priority priority = determinePriority(data);
         System.out.println("[DispatchRoutingFilter] Приоритет: " + priority);
 
@@ -81,13 +80,10 @@ public class DispatchRoutingFilter implements Filter<IncidentReport> {
     // ─── Вспомогательные методы ───────────────────────────────────────────────
 
     /**
-     * Определяет приоритет реагирования по суммарному баллу.
-     *
-     * @param score суммарный балл
-     * @return {@link Appeal.Priority}
+     * Берёт приоритет, уже определённый в {@link UrgencyClassificationFilter}.
+     * Fallback — GREEN, если по какой-то причине поле не заполнено.
      */
     private Appeal.Priority determinePriority(IncidentReport data) {
-        // Приоритет уже определён в UrgencyClassificationFilter по типу инцидентов
         Appeal.Priority p = data.getPreliminaryPriority();
         return p != null ? p : Appeal.Priority.GREEN;
     }

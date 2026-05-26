@@ -1,7 +1,6 @@
 package com.emergencydispatcher.model;
 
 import java.util.List;
-import com.emergencydispatcher.model.Appeal;
 
 /**
  * Сообщение о происшествии — входные данные от звонящего.
@@ -35,6 +34,13 @@ public class IncidentReport {
 
     /** Флаг верификации телефона — заполняется {@link com.emergencydispatcher.pipeline.CallVerificationFilter} */
     private boolean phoneVerified;
+
+    /** Есть ли пострадавшие на месте происшествия */
+    private boolean hasVictims;
+
+    /** Количество пострадавших (0 если hasVictims == false) */
+    private int victimsCount;
+
     /** Предварительный приоритет — заполняется UrgencyClassificationFilter */
     private Appeal.Priority preliminaryPriority;
 
@@ -47,19 +53,25 @@ public class IncidentReport {
     /**
      * Основной конструктор для приёма сообщения от диспетчера.
      *
-     * @param callerName       ФИО звонящего
-     * @param phoneNumber      номер телефона
-     * @param address          адрес происшествия
+     * @param callerName        ФИО звонящего
+     * @param phoneNumber       номер телефона
+     * @param address           адрес происшествия
      * @param selectedIncidents выбранные типы происшествий
+     * @param hasVictims        есть ли пострадавшие
+     * @param victimsCount      количество пострадавших
      */
     public IncidentReport(String callerName,
                           String phoneNumber,
                           String address,
-                          List<UrgencyData> selectedIncidents) {
+                          List<UrgencyData> selectedIncidents,
+                          boolean hasVictims,
+                          int victimsCount) {
         this.callerName = callerName;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.selectedIncidents = selectedIncidents;
+        this.hasVictims = hasVictims;
+        this.victimsCount = victimsCount;
         this.totalScore = 0;
         this.phoneVerified = false;
     }
@@ -85,6 +97,12 @@ public class IncidentReport {
 
     public boolean isPhoneVerified() { return phoneVerified; }
     public void setPhoneVerified(boolean phoneVerified) { this.phoneVerified = phoneVerified; }
+
+    public boolean isHasVictims() { return hasVictims; }
+    public void setHasVictims(boolean hasVictims) { this.hasVictims = hasVictims; }
+
+    public int getVictimsCount() { return victimsCount; }
+    public void setVictimsCount(int victimsCount) { this.victimsCount = victimsCount; }
 
     public Appeal.Priority getPreliminaryPriority() { return preliminaryPriority; }
     public void setPreliminaryPriority(Appeal.Priority p) { this.preliminaryPriority = p; }
@@ -118,6 +136,16 @@ public class IncidentReport {
     public boolean hasCriticalIncident() {
         if (selectedIncidents == null) return false;
         return selectedIncidents.stream().anyMatch(ud -> ud.getScore() == 5);
+    }
+
+    /**
+     * Формирует строку о пострадавших для отображения в наряде.
+     *
+     * @return «Нет пострадавших» или «Есть пострадавшие: N чел.»
+     */
+    public String victimsToString() {
+        if (!hasVictims || victimsCount == 0) return "Нет пострадавших";
+        return "Есть пострадавшие: " + victimsCount + " чел.";
     }
 
     @Override

@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -43,6 +44,15 @@ public class MainController implements Initializable {
     @FXML private TextField     phoneField;
     @FXML private TextField     addressField;
 
+    /** CheckBox «Есть пострадавшие» */
+    @FXML private CheckBox      hasVictimsCheck;
+
+    /** Спиннер количества пострадавших */
+    @FXML private Spinner<Integer> victimsSpinner;
+
+    /** Метка рядом со спиннером (скрывается когда нет пострадавших) */
+    @FXML private HBox          victimsCountBox;
+
     /** Контейнер для критических CheckBox (5 баллов) */
     @FXML private VBox          criticalIncidentsBox;
 
@@ -70,7 +80,25 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buildIncidentCheckBoxes();
+        setupVictimsControl();
         setStatus("Готов к приёму сообщений. Заполните форму и нажмите «Отправить».", false);
+    }
+
+    /**
+     * Настраивает спиннер и логику показа/скрытия поля количества пострадавших.
+     */
+    private void setupVictimsControl() {
+        // Спиннер: 1..999, начальное значение 1
+        victimsSpinner.setValueFactory(
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 999, 1)
+        );
+        // Скрываем поле количества если чекбокс не выбран
+        victimsCountBox.setVisible(false);
+        victimsCountBox.setManaged(false);
+        hasVictimsCheck.selectedProperty().addListener((obs, oldVal, selected) -> {
+            victimsCountBox.setVisible(selected);
+            victimsCountBox.setManaged(selected);
+        });
     }
 
     /**
@@ -153,6 +181,8 @@ public class MainController implements Initializable {
         callerNameField.clear();
         phoneField.clear();
         addressField.clear();
+        hasVictimsCheck.setSelected(false);
+        victimsSpinner.getValueFactory().setValue(1);
         checkBoxEntries.forEach(e -> e.checkBox().setSelected(false));
         setStatus("Форма очищена. Готов к приёму нового сообщения.", false);
     }
@@ -190,11 +220,16 @@ public class MainController implements Initializable {
                 .map(CheckBoxEntry::urgencyData)
                 .toList();
 
+        boolean hasVictims = hasVictimsCheck.isSelected();
+        int victimsCount = hasVictims ? victimsSpinner.getValue() : 0;
+
         return new IncidentReport(
                 callerNameField.getText().trim(),
                 phoneField.getText().trim(),
                 addressField.getText().trim(),
-                selected
+                selected,
+                hasVictims,
+                victimsCount
         );
     }
 

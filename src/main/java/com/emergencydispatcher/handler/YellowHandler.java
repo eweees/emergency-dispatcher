@@ -59,6 +59,7 @@ public class YellowHandler {
                 ───────────────────────────────────────────
                 Тип(-ы):     %s
                 Балл:        %d (срочный)
+                Пострадавшие: %s
                 
                 🚨 НАПРАВЛЕННЫЕ СЛУЖБЫ
                 ───────────────────────────────────────────
@@ -78,6 +79,7 @@ public class YellowHandler {
                 report.getAddress(),
                 report.incidentsToString(),
                 report.getTotalScore(),
+                report.victimsToString(),
                 queueNumber,
                 eta,
                 appeal.getFormattedDate()

@@ -73,6 +73,7 @@ public class GreenHandler {
                 ───────────────────────────────────────────
                 Тип(-ы):     %s
                 Балл:        %d (неэкстренный)
+                Пострадавшие: %s
                 
                 📅 ПЛАНОВЫЕ МЕРОПРИЯТИЯ
                 ───────────────────────────────────────────
@@ -97,6 +98,7 @@ public class GreenHandler {
                 report.getAddress(),
                 report.incidentsToString(),
                 report.getTotalScore(),
+                report.victimsToString(),
                 inspector,
                 visitTime.format(TIME_FORMATTER),
                 hoursToVisit,

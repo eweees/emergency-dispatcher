@@ -59,6 +59,7 @@ public class RedHandler {
                 ───────────────────────────────────────────
                 Тип(-ы):     %s
                 Балл:        %d (критический)
+                Пострадавшие: %s
                 
                 🚨 НАПРАВЛЕННЫЕ СЛУЖБЫ
                 ───────────────────────────────────────────
@@ -79,6 +80,7 @@ public class RedHandler {
                 report.getAddress(),
                 report.incidentsToString(),
                 report.getTotalScore(),
+                report.victimsToString(),
                 eta,
                 appeal.getFormattedDate()
         );

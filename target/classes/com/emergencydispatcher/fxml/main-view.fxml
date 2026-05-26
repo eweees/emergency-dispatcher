@@ -54,6 +54,20 @@
                                promptText="г. Москва, ул. Ленина, д. 5, кв. 12"
                                styleClass="input-field"/>
 
+                    <!-- Пострадавшие -->
+                    <Separator/>
+                    <Label text="🚑 Пострадавшие" styleClass="section-title"/>
+                    <CheckBox fx:id="hasVictimsCheck"
+                              text="Есть пострадавшие на месте"
+                              styleClass="victims-check"/>
+                    <HBox fx:id="victimsCountBox" spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Количество пострадавших:" styleClass="field-label"/>
+                        <Spinner fx:id="victimsSpinner"
+                                 prefWidth="90"
+                                 styleClass="victims-spinner"/>
+                        <Label text="чел." styleClass="hint-label"/>
+                    </HBox>
+
                     <Separator/>
 
                     <!-- Легенда баллов -->

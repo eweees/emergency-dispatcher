@@ -54,9 +54,13 @@
             </HBox.margin>
 
             <Button fx:id="saveButton"
-                    text="💾 Сохранить в TXT"
+                    text="💾 Сохранить TXT"
                     onAction="#onSave"
                     styleClass="btn-save"/>
+            <Button fx:id="savePdfButton"
+                    text="📄 Сохранить PDF"
+                    onAction="#onSavePdf"
+                    styleClass="btn-pdf"/>
             <Button fx:id="closeButton"
                     text="✖ Закрыть"
                     onAction="#onClose"
