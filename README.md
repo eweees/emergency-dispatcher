@@ -1,4 +1,4 @@
-# 🚨 Цифровой двойник диспетчера экстренных служб
+#  Цифровой двойник диспетчера экстренных служб
 
 > Десктопное JavaFX-приложение, имитирующее работу диспетчера службы 112 / ЕДДС.  
 > Принимает сообщение о происшествии, верифицирует звонящего, оценивает срочность  
@@ -35,42 +35,7 @@
 ---
 
 ## Архитектура — «Каналы и фильтры»
-
-```
-Сообщение о происшествии (ФИО, телефон, адрес, типы инцидентов)
-        │ IncidentReport
-        ▼
-┌─────────────────────────────────┐
-│  Фильтр 1 — ValidationFilter    │  ФИО ≥ 2 слова, телефон 11 цифр, адрес, инциденты ≥ 1
-└────────────────┬────────────────┘
-                 │
-                 ▼
-┌──────────────────────────────────────┐
-│  Фильтр 2 — CallVerificationFilter   │  HTTP GET → CallVerificationServer :8282
-└────────────────┬─────────────────────┘  телефон корректный + адрес с номером дома
-                 │
-                 ▼
-┌────────────────────────────────────────────┐
-│  Фильтр 3 — UrgencyClassificationFilter    │  Σ баллов → приоритет
-└────────────────┬───────────────────────────┘  критический тип → RED немедленно
-                 │
-                 ▼
-┌──────────────────────────────────┐
-│  Фильтр 4 — DispatchRoutingFilter│  RED / YELLOW / GREEN + сохранение в БД
-└──┬───────────┬──────────────┬────┘
-   │           │              │
-   RED       YELLOW         GREEN
-   │           │              │
-   RedHandler  YellowHandler  GreenHandler
-   │           │              │
-   └───────────┴──────────────┘
-                 │ DispatchTicket
-                 ▼
-          Наряд-талон диспетчера
-    (экран JavaFX + сохранение TXT)
-```
-
----
+<img width="978" height="1334" alt="1sxema" src="https://github.com/user-attachments/assets/6f46b691-2f8c-497e-8073-c94c30f2e97b" />
 
 ## Шкала срочности
 
@@ -111,7 +76,7 @@
 
 **Правило верификации:**
 - Телефон: 11 цифр, начинается с «8» или «7» (после нормализации)
-- Адрес: не пустой, содержит хотя бы одну цифру (номер дома)
+- Адрес: не пустой, содержит хотя бы одну цифру (номер дома, км дороги)
 
 ```
 GET http://localhost:8282/verify?phone=89001234567&address=ул.Ленина,5
@@ -132,7 +97,7 @@ GET http://localhost:8282/verify?phone=12345&address=ул.Ленина,5
 
 ```
 src/main/java/com/emergencydispatcher/
-├── EmergencyApplication.java              # Точка входа JavaFX, инициализация БД
+├── EmergencyApplication.java              # Инициализация БД
 ├── Launcher.java                          # Обёртка для запуска из JAR
 ├── config/
 │   └── UrgencyScaleConfig.java            # Шкала срочности: 15 типов, 3 категории
@@ -161,81 +126,17 @@ src/main/java/com/emergencydispatcher/
 │   └── JournalController.java             # Журнал + статистика по периодам
 └── server/
     └── CallVerificationServer.java        # HTTP-сервер верификации :8282
-
-src/main/resources/com/emergencydispatcher/
-├── fxml/
-│   ├── main-view.fxml                     # Форма приёма сообщения
-│   ├── ticket-view.fxml                   # Экран наряда-талона
-│   └── journal-view.fxml                  # Журнал обращений + статистика
-└── css/
-    └── style.css                          # Стили приложения
 ```
 
 ---
 
 ## База данных
 
-Файл `emergency_dispatcher.db` (SQLite) создаётся автоматически в корне проекта.
-
 | Таблица            | Назначение               | Ключевые поля                                        |
 | ------------------ | ------------------------ | ---------------------------------------------------- |
 | `incident_reports` | Сообщения о происшествиях | caller_name, phone, address, incidents, total_score  |
 | `appeals`          | Обращения                | report_id (FK), priority                             |
 | `dispatch_tickets` | Выданные наряды          | appeal_id (FK), order_number, type, details          |
-
----
-
-## Запуск проекта
-
-### Требования
-
-- JDK 21+
-- IntelliJ IDEA (Community или Ultimate)
-
-### Порядок запуска
-
-> ⚠ **Сначала запускается CallVerificationServer, затем основное приложение!**
-
-#### Шаг 1 — Настройка Run Configurations
-
-В IntelliJ IDEA создайте **две** Run Configuration (тип **Application**):
-
-**Конфигурация 1: CallVerificationServer**
-```
-Name:        CallVerificationServer
-Main class:  com.emergencydispatcher.server.CallVerificationServer
-VM options:  (пустые — сервер не использует JavaFX)
-```
-
-**Конфигурация 2: EmergencyDispatcher**
-```
-Name:       EmergencyDispatcher  
-Main class: com.emergencydispatcher.Launcher
-VM options: --module-path "путь/к/javafx-sdk/lib" --add-modules javafx.controls,javafx.fxml
-```
-
-#### Шаг 2 — Запуск
-
-1. Выбери конфигурацию `CallVerificationServer` → нажми ▶️
-
-   В консоли появится:
-   ```
-   ╔══════════════════════════════════════════════════╗
-   ║       CallVerificationServer запущен             ║
-   ║  Порт: 8282                                      ║
-   ╚══════════════════════════════════════════════════╝
-   ```
-
-2. Переключись на `EmergencyDispatcher` → нажми ▶️
-
-### Тестовые данные
-
-Попробуй заполнить форму:
-- **ФИО:** Иванов Иван Иванович
-- **Телефон:** 89001234567
-- **Адрес:** г. Москва, ул. Ленина, д. 5
-
-Отметь типы инцидентов и нажми «Отправить сообщение».
 
 ---
 
@@ -252,12 +153,3 @@ VM options: --module-path "путь/к/javafx-sdk/lib" --add-modules javafx.cont
 | ФТ-7 | Ведение журнала обращений (SQLite)                          | ✅      |
 | ФТ-8 | Статистика по приоритетам с процентным соотношением         | ✅      |
 | ФТ-9 | Цветовое выделение нарядов по приоритету в журнале          | ✅      |
-
----
-
-## Автор
-
-Курсовой проект, 2026  
-Тема: «Цифровой двойник диспетчера экстренных служб»  
-Архитектура: Pipes and Filters (4 фильтра)  
-Аналог: [med_registrator](https://github.com/Titan0zxc/med_registrator)
