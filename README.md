@@ -153,3 +153,27 @@ src/main/java/com/emergencydispatcher/
 | ФТ-7 | Ведение журнала обращений (SQLite)                          | ✅      |
 | ФТ-8 | Статистика по приоритетам с процентным соотношением         | ✅      |
 | ФТ-9 | Цветовое выделение нарядов по приоритету в журнале          | ✅      |
+
+#  Диаграммы 
+## Контекстная диаграмма
+<img width="1158" height="485" alt="контекстная" src="https://github.com/user-attachments/assets/07dcd7fd-c45a-4821-9902-c727cfb01621" />
+
+
+## Use Case диаграмма
+<img width="1153" height="742" alt="image" src="https://github.com/user-attachments/assets/2d2a8981-8f30-4df0-a30c-d5b811ea6362" />
+
+## Архитектура «Каналы и фильтры»
+<img width="790" height="1178" alt="image" src="https://github.com/user-attachments/assets/0e470307-abee-4b16-b1a7-b6b5de933251" />
+
+## Диаграмма последовательности — Обработка сообщения о происшествии
+<img width="1809" height="1498" alt="диаграмма последовательностей— Обработка сообщения о происшествии" src="https://github.com/user-attachments/assets/51804767-99c6-40ee-96b5-107b7f765309" />
+
+## Диаграмма пакетов
+<img width="1456" height="777" alt="image" src="https://github.com/user-attachments/assets/3bd8bc59-dafe-4ba2-9f9b-d1dd417c138f" />
+
+## Диаграмма классов
+<img width="1853" height="1074" alt="image" src="https://github.com/user-attachments/assets/2afcc0c5-70b3-4c01-90da-caa454973204" />
+
+## ER-диаграмма базы данных
+<img width="679" height="788" alt="ER диаграмма" src="https://github.com/user-attachments/assets/0cbf944f-871a-4c02-af3d-c5803d4cb6d7" />
+
