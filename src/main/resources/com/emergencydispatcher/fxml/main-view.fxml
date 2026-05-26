@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.emergencydispatcher.controller.MainController"
+            styleClass="root-pane">
+
+    <!-- ═══════════════ ШАПКА ═══════════════ -->
+    <top>
+        <VBox styleClass="header-box">
+            <Label text="🚨 ЦИФРОВОЙ ДВОЙНИК ДИСПЕТЧЕРА ЕДДС 112"
+                   styleClass="app-title"/>
+            <Label text="Приём сообщений об экстренных происшествиях"
+                   styleClass="app-subtitle"/>
+        </VBox>
+    </top>
+
+    <!-- ═══════════════ ОСНОВНАЯ ОБЛАСТЬ ═══════════════ -->
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="main-scroll">
+            <HBox spacing="16" styleClass="main-content">
+                <HBox.margin>
+                    <Insets top="16" right="16" bottom="16" left="16"/>
+                </HBox.margin>
+
+                <!-- ──── Левая колонка: данные звонящего ──── -->
+                <VBox spacing="12" styleClass="form-panel" HBox.hgrow="ALWAYS">
+
+                    <Label text="📋 Данные звонящего" styleClass="section-title"/>
+                    <Separator/>
+
+                    <!-- ФИО -->
+                    <Label text="ФИО звонящего *" styleClass="field-label"/>
+                    <TextField fx:id="callerNameField"
+                               promptText="Иванов Иван Иванович"
+                               styleClass="input-field"/>
+
+                    <!-- Телефон -->
+                    <Label text="Номер телефона *" styleClass="field-label"/>
+                    <TextField fx:id="phoneField"
+                               promptText="89001234567 или +79001234567"
+                               styleClass="input-field"/>
+                    <Label text="Формат: 8XXXXXXXXXX или +7XXXXXXXXXX"
+                           styleClass="hint-label"/>
+
+                    <!-- Адрес -->
+                    <Label text="Адрес происшествия *" styleClass="field-label"/>
+                    <TextField fx:id="addressField"
+                               promptText="г. Москва, ул. Ленина, д. 5, кв. 12"
+                               styleClass="input-field"/>
+
+                    <Separator/>
+
+                    <!-- Легенда баллов -->
+                    <Label text="📊 Шкала срочности" styleClass="section-title"/>
+                    <HBox spacing="12">
+                        <Label text="🔴 Критическое — 5 б." styleClass="legend-critical"/>
+                        <Label text="🟡 Срочное — 3 б."     styleClass="legend-urgent"/>
+                        <Label text="🟢 Неэкстренное — 1 б." styleClass="legend-routine"/>
+                    </HBox>
+
+                    <Separator/>
+
+                    <!-- Статус -->
+                    <Label fx:id="statusLabel"
+                           text="Готов к приёму сообщений"
+                           styleClass="status-label status-ok"
+                           wrapText="true"/>
+
+                    <!-- Кнопки -->
+                    <HBox spacing="12">
+                        <Button fx:id="submitButton"
+                                text="📨 Отправить сообщение"
+                                onAction="#onSubmit"
+                                styleClass="btn-submit"
+                                HBox.hgrow="ALWAYS"
+                                maxWidth="Infinity"/>
+                        <Button fx:id="clearButton"
+                                text="🗑 Очистить"
+                                onAction="#onClear"
+                                styleClass="btn-clear"/>
+                    </HBox>
+                    <Button fx:id="journalButton"
+                            text="📖 Открыть журнал обращений"
+                            onAction="#onOpenJournal"
+                            styleClass="btn-journal"
+                            maxWidth="Infinity"/>
+
+                </VBox>
+
+                <!-- ──── Правая колонка: типы происшествий ──── -->
+                <VBox spacing="12" styleClass="form-panel incidents-panel" prefWidth="420">
+
+                    <Label text="⚠ Типы происшествий (отметьте все подходящие) *"
+                           styleClass="section-title"/>
+                    <Separator/>
+
+                    <!-- Критические -->
+                    <Label text="🔴 Критические — угроза жизни (5 баллов)"
+                           styleClass="category-label category-critical"/>
+                    <VBox fx:id="criticalIncidentsBox" spacing="6" styleClass="incident-group"/>
+
+                    <Separator/>
+
+                    <!-- Срочные -->
+                    <Label text="🟡 Срочные — требуют реагирования (3 балла)"
+                           styleClass="category-label category-urgent"/>
+                    <VBox fx:id="urgentIncidentsBox" spacing="6" styleClass="incident-group"/>
+
+                    <Separator/>
+
+                    <!-- Неэкстренные -->
+                    <Label text="🟢 Неэкстренные — плановое реагирование (1 балл)"
+                           styleClass="category-label category-routine"/>
+                    <VBox fx:id="routineIncidentsBox" spacing="6" styleClass="incident-group"/>
+
+                </VBox>
+
+            </HBox>
+        </ScrollPane>
+    </center>
+
+    <!-- ═══════════════ ПОДВАЛ ═══════════════ -->
+    <bottom>
+        <HBox styleClass="footer-box" alignment="CENTER_LEFT">
+            <Label text="ЕДДС 112 | Цифровой двойник диспетчера экстренных служб | v1.0"
+                   styleClass="footer-label"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

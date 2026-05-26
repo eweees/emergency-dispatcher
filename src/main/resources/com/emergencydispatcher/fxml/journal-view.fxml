@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.emergencydispatcher.controller.JournalController"
+            styleClass="root-pane">
+
+    <!-- ═══════════════ ШАПКА ═══════════════ -->
+    <top>
+        <VBox styleClass="header-box">
+            <Label text="📖 Журнал обращений ЕДДС 112" styleClass="app-title"/>
+        </VBox>
+    </top>
+
+    <!-- ═══════════════ ОСНОВНАЯ ОБЛАСТЬ ═══════════════ -->
+    <center>
+        <VBox spacing="12" styleClass="main-content">
+            <VBox.margin>
+                <Insets top="12" right="16" bottom="12" left="16"/>
+            </VBox.margin>
+
+            <!-- Фильтр периода -->
+            <HBox spacing="12" alignment="CENTER_LEFT" styleClass="filter-bar">
+                <Label text="Период с:" styleClass="field-label"/>
+                <DatePicker fx:id="dateFrom" promptText="дд.мм.гггг"/>
+                <Label text="по:" styleClass="field-label"/>
+                <DatePicker fx:id="dateTo" promptText="дд.мм.гггг"/>
+                <Button fx:id="refreshButton"
+                        text="🔄 Обновить"
+                        onAction="#onRefresh"
+                        styleClass="btn-submit"/>
+                <Button text="✖ Сбросить"
+                        onAction="#onResetFilter"
+                        styleClass="btn-clear"/>
+            </HBox>
+
+            <!-- Таблица журнала -->
+            <TableView fx:id="journalTable" VBox.vgrow="ALWAYS" styleClass="journal-table">
+                <columns>
+                    <TableColumn fx:id="colDate"     text="Дата/Время"  prefWidth="150"/>
+                    <TableColumn fx:id="colPriority" text="Приоритет"   prefWidth="90"/>
+                    <TableColumn fx:id="colCaller"   text="ФИО"         prefWidth="150"/>
+                    <TableColumn fx:id="colPhone"    text="Телефон"     prefWidth="130"/>
+                    <TableColumn fx:id="colAddress"  text="Адрес"       prefWidth="200"/>
+                    <TableColumn fx:id="colScore"    text="Балл"        prefWidth="60"/>
+                    <TableColumn fx:id="colOrder"    text="Наряд №"     prefWidth="130"/>
+                </columns>
+            </TableView>
+
+        </VBox>
+    </center>
+
+    <!-- ═══════════════ СТАТИСТИКА ═══════════════ -->
+    <bottom>
+        <VBox styleClass="stats-panel" spacing="8">
+            <VBox.margin>
+                <Insets top="0" right="16" bottom="12" left="16"/>
+            </VBox.margin>
+
+            <Separator/>
+            <Label text="📊 Статистика" styleClass="section-title"/>
+            <HBox spacing="24">
+                <Label fx:id="statsTotalLabel"  text="Всего: 0"     styleClass="stats-total"/>
+                <Label fx:id="statsRedLabel"    text="🔴 RED: 0"    styleClass="stats-red"/>
+                <Label fx:id="statsYellowLabel" text="🟡 YELLOW: 0" styleClass="stats-yellow"/>
+                <Label fx:id="statsGreenLabel"  text="🟢 GREEN: 0"  styleClass="stats-green"/>
+            </HBox>
+        </VBox>
+    </bottom>
+
+</BorderPane>

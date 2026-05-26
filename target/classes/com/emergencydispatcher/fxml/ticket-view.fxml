@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.emergencydispatcher.controller.TicketController"
+            styleClass="root-pane">
+
+    <!-- ═══════════════ ШАПКА ═══════════════ -->
+    <top>
+        <VBox styleClass="ticket-header">
+            <Label text="📋 НАРЯД-ТАЛОН ДИСПЕТЧЕРА" styleClass="ticket-header-title"/>
+        </VBox>
+    </top>
+
+    <!-- ═══════════════ КАРТОЧКА НАРЯДА ═══════════════ -->
+    <center>
+        <VBox fx:id="ticketCard" spacing="12" styleClass="ticket-card">
+            <VBox.margin>
+                <Insets top="16" right="16" bottom="16" left="16"/>
+            </VBox.margin>
+
+            <!-- Приоритет -->
+            <Label fx:id="priorityLabel"
+                   text="Приоритет"
+                   styleClass="ticket-priority-label"
+                   wrapText="true"/>
+
+            <!-- Номер наряда -->
+            <Label fx:id="orderNumberLabel"
+                   text="Наряд №"
+                   styleClass="ticket-order-label"/>
+
+            <Separator/>
+
+            <!-- Детали наряда -->
+            <TextArea fx:id="detailsArea"
+                      editable="false"
+                      wrapText="true"
+                      styleClass="ticket-details-area"
+                      VBox.vgrow="ALWAYS"/>
+
+        </VBox>
+    </center>
+
+    <!-- ═══════════════ КНОПКИ ═══════════════ -->
+    <bottom>
+        <HBox spacing="12" styleClass="ticket-footer" alignment="CENTER_RIGHT">
+            <HBox.margin>
+                <Insets top="12" right="16" bottom="12" left="16"/>
+            </HBox.margin>
+
+            <Button fx:id="saveButton"
+                    text="💾 Сохранить в TXT"
+                    onAction="#onSave"
+                    styleClass="btn-save"/>
+            <Button fx:id="closeButton"
+                    text="✖ Закрыть"
+                    onAction="#onClose"
+                    styleClass="btn-close"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
