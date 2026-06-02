@@ -36,8 +36,7 @@
                 </Label>
 
                 <!-- WebView карты -->
-                <WebView fx:id="mapView" VBox.vgrow="ALWAYS"
-                         minHeight="360" prefHeight="380"/>
+                <WebView fx:id="mapView" VBox.vgrow="ALWAYS"/>
 
                 <!-- Адресная строка под картой -->
                 <HBox spacing="8" alignment="CENTER_LEFT" styleClass="address-bar-box">
@@ -73,6 +72,9 @@
                         <Spinner fx:id="victimsSpinner" prefWidth="80"
                                  styleClass="victims-spinner"/>
                         <Label text="чел." styleClass="hint-label"/>
+                        <CheckBox fx:id="unknownVictimsCheck"
+                                  text="Неизвестно"
+                                  styleClass="hint-label"/>
                     </HBox>
                 </VBox>
 

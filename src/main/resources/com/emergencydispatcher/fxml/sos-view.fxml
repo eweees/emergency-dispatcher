@@ -21,60 +21,48 @@
 
     <!-- ═══════════ КНОПКИ КАТЕГОРИЙ ═══════════ -->
     <center>
-        <VBox alignment="CENTER" spacing="0" styleClass="sos-center">
-            <VBox.margin>
-                <Insets top="20" right="40" bottom="10" left="40"/>
-            </VBox.margin>
+        <VBox alignment="CENTER" spacing="16" styleClass="sos-center" VBox.vgrow="ALWAYS">
 
             <!-- Строка 1 -->
-            <HBox spacing="16" alignment="CENTER" maxWidth="680">
-                <HBox.margin>
-                    <Insets bottom="16"/>
-                </HBox.margin>
-
+            <HBox spacing="16" alignment="CENTER" VBox.vgrow="ALWAYS">
                 <Button fx:id="fireButton"
-                        text="🔥 Пожар"
+                        text="🔥  Пожар"
                         onAction="#onFire"
                         styleClass="sos-btn sos-btn-red"
                         HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
 
                 <Button fx:id="crashButton"
-                        text="🚗 ДТП"
+                        text="🚗  ДТП"
                         onAction="#onCrash"
                         styleClass="sos-btn sos-btn-orange"
                         HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
             </HBox>
 
             <!-- Строка 2 -->
-            <HBox spacing="16" alignment="CENTER" maxWidth="680">
-                <HBox.margin>
-                    <Insets bottom="16"/>
-                </HBox.margin>
-
+            <HBox spacing="16" alignment="CENTER" VBox.vgrow="ALWAYS">
                 <Button fx:id="violenceButton"
-                        text="🔫 Нападение"
+                        text="🔫  Нападение"
                         onAction="#onViolence"
                         styleClass="sos-btn sos-btn-purple"
                         HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
 
                 <Button fx:id="medicalButton"
-                        text="🚑 Медицина"
+                        text="🚑  Медицина"
                         onAction="#onMedical"
                         styleClass="sos-btn sos-btn-darkred"
                         HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
             </HBox>
 
             <!-- Строка 3 -->
-            <HBox spacing="16" alignment="CENTER" maxWidth="680">
-
+            <HBox spacing="16" alignment="CENTER" VBox.vgrow="ALWAYS">
                 <Button fx:id="utilityButton"
-                        text="💧 Авария"
+                        text="💧  Авария ЖКХ"
                         onAction="#onUtility"
                         styleClass="sos-btn sos-btn-blue"
                         HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
 
                 <Button fx:id="otherButton"
-                        text="⚡ Другое"
+                        text="⚡  Другое"
                         onAction="#onOther"
                         styleClass="sos-btn sos-btn-dark"
                         HBox.hgrow="ALWAYS" maxWidth="Infinity"/>

@@ -83,7 +83,7 @@ public class SosController {
             );
             Stage wizardStage = new Stage();
             wizardStage.setTitle("Вызов помощи — " + categoryLabel);
-            Scene scene = new Scene(loader.load(), 800, 620);
+            Scene scene = new Scene(loader.load(), 920, 680);
             scene.getStylesheets().add(
                     EmergencyApplication.class.getResource("css/style.css").toExternalForm()
             );

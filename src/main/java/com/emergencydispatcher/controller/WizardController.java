@@ -49,6 +49,7 @@ public class WizardController implements Initializable {
     @FXML private CheckBox  hasVictimsCheck;
     @FXML private HBox      victimsCountBox;
     @FXML private Spinner<Integer> victimsSpinner;
+    @FXML private CheckBox  unknownVictimsCheck;
     @FXML private TextField phoneField;
     @FXML private TextArea  descriptionField;
     @FXML private Label     statusLabel;
@@ -75,6 +76,9 @@ public class WizardController implements Initializable {
         hasVictimsCheck.selectedProperty().addListener((obs, old, selected) -> {
             victimsCountBox.setVisible(selected);
             victimsCountBox.setManaged(selected);
+        });
+        unknownVictimsCheck.selectedProperty().addListener((obs, old, unknown) -> {
+            victimsSpinner.setDisable(unknown);
         });
 
         mapBridge.setOnAddressSelected(addr -> Platform.runLater(() -> {
@@ -185,7 +189,8 @@ public class WizardController implements Initializable {
 
     private IncidentReport buildReport() {
         boolean hasVictims = hasVictimsCheck.isSelected();
-        int count = hasVictims ? victimsSpinner.getValue() : 0;
+        boolean unknownCount = hasVictims && unknownVictimsCheck.isSelected();
+        int count = hasVictims && !unknownCount ? victimsSpinner.getValue() : (hasVictims ? 1 : 0);
         String phone = phoneField.getText().trim();
         String desc  = descriptionField.getText().trim();
 
@@ -276,12 +281,14 @@ public class WizardController implements Initializable {
                   <button id="locateBtn" onclick="locateMe()">📍 Моё место</button>
                   <div id="hint">Нажмите на карту чтобы отметить место</div>
                   <script>
-                    var map = L.map('map').setView([55.7558, 37.6173], 12);
+                    var map = L.map('map', {attributionControl: false}).setView([55.7558, 37.6173], 12);
                     var marker = null;
 
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                      attribution: '© OpenStreetMap', maxZoom: 19
+                      maxZoom: 19
                     }).addTo(map);
+
+                    L.control.attribution({prefix: '© OpenStreetMap'}).addTo(map);
 
                     var redIcon = L.divIcon({
                       className:'',
