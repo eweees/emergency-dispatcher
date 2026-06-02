@@ -41,6 +41,9 @@ public class IncidentReport {
     /** Количество пострадавших (0 если hasVictims == false) */
     private int victimsCount;
 
+    /** Краткое описание ситуации от пострадавшего (необязательно) */
+    private String description;
+
     /** Предварительный приоритет — заполняется UrgencyClassificationFilter */
     private Appeal.Priority preliminaryPriority;
 
@@ -103,6 +106,9 @@ public class IncidentReport {
 
     public int getVictimsCount() { return victimsCount; }
     public void setVictimsCount(int victimsCount) { this.victimsCount = victimsCount; }
+
+    public String getDescription() { return description != null ? description : ""; }
+    public void setDescription(String description) { this.description = description; }
 
     public Appeal.Priority getPreliminaryPriority() { return preliminaryPriority; }
     public void setPreliminaryPriority(Appeal.Priority p) { this.preliminaryPriority = p; }

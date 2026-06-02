@@ -11,52 +11,60 @@ import java.io.IOException;
 /**
  * Главный класс JavaFX-приложения «Цифровой двойник диспетчера экстренных служб».
  *
- * <p>Порядок инициализации:
- * <ol>
- *   <li>Инициализация базы данных SQLite (создание таблиц при первом запуске)</li>
- *   <li>Загрузка главного FXML-экрана с формой приёма сообщений</li>
- *   <li>Отображение главного окна приложения</li>
- * </ol>
- *
- * <p>⚠ Перед запуском этого приложения необходимо запустить {@link server.CallVerificationServer}
- * на порту 8282.
+ * При запуске открывается SOS-экран с шестью кнопками быстрого выбора.
+ * Из него доступен полноценный режим диспетчера (старый main-view.fxml).
  */
 public class EmergencyApplication extends Application {
 
-    /** Заголовок главного окна приложения */
-    private static final String WINDOW_TITLE = "Цифровой двойник диспетчера экстренных служб";
-
-    /** Минимальная ширина главного окна */
-    private static final double MIN_WIDTH = 900;
-
-    /** Минимальная высота главного окна */
+    private static final String WINDOW_TITLE = "Экстренный вызов 112 — ЕДДС";
+    private static final double MIN_WIDTH  = 900;
     private static final double MIN_HEIGHT = 700;
+
+    private static Stage primaryStage;
 
     @Override
     public void start(Stage stage) throws IOException {
-        // 1. Инициализация БД (создание таблиц, если не существуют)
+        primaryStage = stage;
         DatabaseManager.getInstance().initDatabase();
 
-        // 2. Загрузка FXML главного экрана
-        FXMLLoader fxmlLoader = new FXMLLoader(
-                EmergencyApplication.class.getResource("fxml/main-view.fxml")
-        );
+        showSosScreen();
 
-        // 3. Создание и настройка сцены
-        Scene scene = new Scene(fxmlLoader.load(), MIN_WIDTH, MIN_HEIGHT);
-        scene.getStylesheets().add(
-                EmergencyApplication.class.getResource("css/style.css").toExternalForm()
-        );
-
-        // 4. Настройка и отображение главного окна
         stage.setTitle(WINDOW_TITLE);
-        stage.setScene(scene);
         stage.setMinWidth(MIN_WIDTH);
         stage.setMinHeight(MIN_HEIGHT);
         stage.show();
     }
 
-    public static void main(String[] args) {
-        launch();
+    // ─── Переключение экранов ────────────────────────────────────────────────
+
+    public static void showSosScreen() {
+        loadAndSetScene("fxml/sos-view.fxml", WINDOW_TITLE);
     }
+
+    public static void showDispatcherScreen() {
+        loadAndSetScene("fxml/main-view.fxml", "Диспетчер ЕДДС 112 — расширенный режим");
+    }
+
+    private static void loadAndSetScene(String fxmlPath, String title) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    EmergencyApplication.class.getResource(fxmlPath)
+            );
+            Scene scene = new Scene(loader.load(), primaryStage.getScene() != null
+                    ? primaryStage.getScene().getWidth() : MIN_WIDTH,
+                    primaryStage.getScene() != null
+                    ? primaryStage.getScene().getHeight() : MIN_HEIGHT);
+            scene.getStylesheets().add(
+                    EmergencyApplication.class.getResource("css/style.css").toExternalForm()
+            );
+            primaryStage.setScene(scene);
+            primaryStage.setTitle(title);
+        } catch (IOException e) {
+            throw new RuntimeException("Не удалось загрузить экран: " + fxmlPath, e);
+        }
+    }
+
+    public static Stage getPrimaryStage() { return primaryStage; }
+
+    public static void main(String[] args) { launch(); }
 }

@@ -42,6 +42,11 @@ public class CallVerificationFilter implements Filter<IncidentReport> {
 
     @Override
     public void process(IncidentReport data) throws FilterException {
+        // В SOS-режиме телефон необязателен — пропускаем верификацию
+        if (data.getPhoneNumber() == null || data.getPhoneNumber().isBlank()) {
+            System.out.println("[CallVerificationFilter] Телефон не указан — верификация пропущена (SOS-режим).");
+            return;
+        }
         System.out.println("[CallVerificationFilter] Верификация телефона: " + data.getPhoneNumber());
 
         String phone = URLEncoder.encode(

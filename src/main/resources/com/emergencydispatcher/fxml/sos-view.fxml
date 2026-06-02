@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.emergencydispatcher.controller.SosController"
+            styleClass="sos-root">
+
+    <!-- ═══════════ ШАПКА ═══════════ -->
+    <top>
+        <VBox styleClass="sos-header" alignment="CENTER">
+            <Label text="🚨 ЭКСТРЕННЫЙ ВЫЗОВ 112" styleClass="sos-title"/>
+            <Label text="Выберите что случилось — помощь будет вызвана немедленно"
+                   styleClass="sos-subtitle"/>
+        </VBox>
+    </top>
+
+    <!-- ═══════════ КНОПКИ КАТЕГОРИЙ ═══════════ -->
+    <center>
+        <VBox alignment="CENTER" spacing="0" styleClass="sos-center">
+            <VBox.margin>
+                <Insets top="20" right="40" bottom="10" left="40"/>
+            </VBox.margin>
+
+            <!-- Строка 1 -->
+            <HBox spacing="16" alignment="CENTER" maxWidth="680">
+                <HBox.margin>
+                    <Insets bottom="16"/>
+                </HBox.margin>
+
+                <Button fx:id="fireButton"
+                        text="🔥 Пожар"
+                        onAction="#onFire"
+                        styleClass="sos-btn sos-btn-red"
+                        HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+
+                <Button fx:id="crashButton"
+                        text="🚗 ДТП"
+                        onAction="#onCrash"
+                        styleClass="sos-btn sos-btn-orange"
+                        HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+            </HBox>
+
+            <!-- Строка 2 -->
+            <HBox spacing="16" alignment="CENTER" maxWidth="680">
+                <HBox.margin>
+                    <Insets bottom="16"/>
+                </HBox.margin>
+
+                <Button fx:id="violenceButton"
+                        text="🔫 Нападение"
+                        onAction="#onViolence"
+                        styleClass="sos-btn sos-btn-purple"
+                        HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+
+                <Button fx:id="medicalButton"
+                        text="🚑 Медицина"
+                        onAction="#onMedical"
+                        styleClass="sos-btn sos-btn-darkred"
+                        HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+            </HBox>
+
+            <!-- Строка 3 -->
+            <HBox spacing="16" alignment="CENTER" maxWidth="680">
+
+                <Button fx:id="utilityButton"
+                        text="💧 Авария"
+                        onAction="#onUtility"
+                        styleClass="sos-btn sos-btn-blue"
+                        HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+
+                <Button fx:id="otherButton"
+                        text="⚡ Другое"
+                        onAction="#onOther"
+                        styleClass="sos-btn sos-btn-dark"
+                        HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+            </HBox>
+
+        </VBox>
+    </center>
+
+    <!-- ═══════════ ПОДВАЛ ═══════════ -->
+    <bottom>
+        <HBox styleClass="sos-footer" alignment="CENTER_RIGHT" spacing="12">
+            <HBox.margin>
+                <Insets top="12" right="16" bottom="12" left="16"/>
+            </HBox.margin>
+
+            <Button text="📖 Журнал обращений"
+                    onAction="#onOpenJournal"
+                    styleClass="btn-journal"/>
+
+            <Button text="🎛 Режим диспетчера"
+                    onAction="#onDispatcherMode"
+                    styleClass="btn-dispatcher"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

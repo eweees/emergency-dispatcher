@@ -55,6 +55,11 @@ public class GreenHandler {
         };
         String inspector = inspectors[random.nextInt(inspectors.length)];
 
+        String callerLine = report.getCallerName().isBlank() ? "Анонимно (SOS)" : report.getCallerName();
+        String phoneLine  = report.getPhoneNumber().isBlank() ? "не указан" : report.getPhoneNumber();
+        String descLine   = report.getDescription().isBlank() ? "" :
+                "\nОписание:    " + report.getDescription();
+
         String title = "🟢 НЕЭКСТРЕННЫЙ ВЫЗОВ — ПЛАНОВЫЙ ВЫЕЗД";
 
         String details = String.format("""
@@ -62,30 +67,30 @@ public class GreenHandler {
                 НАРЯД № %s
                 ПРИОРИТЕТ: 🟢 GREEN — НЕЭКСТРЕННЫЙ
                 ═══════════════════════════════════════════
-                
+
                 📋 ДАННЫЕ ЗВОНЯЩЕГО
                 ───────────────────────────────────────────
                 ФИО:         %s
                 Телефон:     %s
-                Адрес:       %s
-                
+                Адрес:       %s%s
+
                 📊 ОЦЕНКА ПРОИСШЕСТВИЯ
                 ───────────────────────────────────────────
                 Тип(-ы):     %s
                 Балл:        %d (неэкстренный)
                 Пострадавшие: %s
-                
+
                 📅 ПЛАНОВЫЕ МЕРОПРИЯТИЯ
                 ───────────────────────────────────────────
                 Назначен:    %s
                 Прибытие:    ~%s
-                
+
                 📞 РЕКОМЕНДАЦИИ
                 ───────────────────────────────────────────
                 • Оставайтесь на месте или будьте доступны
                   по указанному номеру телефона
                 • При ухудшении ситуации перезвоните 112
-                
+
                 ⏱ Ожидаемое время прибытия: ~%d ч.
                 ───────────────────────────────────────────
                 ✅ СТАТУС: ЗАРЕГИСТРИРОВАНО
@@ -93,9 +98,10 @@ public class GreenHandler {
                 ═══════════════════════════════════════════
                 """,
                 orderNumber,
-                report.getCallerName(),
-                report.getPhoneNumber(),
+                callerLine,
+                phoneLine,
                 report.getAddress(),
+                descLine,
                 report.incidentsToString(),
                 report.getTotalScore(),
                 report.victimsToString(),
@@ -105,7 +111,13 @@ public class GreenHandler {
                 appeal.getFormattedDate()
         );
 
-        return new DispatchTicket(Appeal.Priority.GREEN, title, details, orderNumber);
+        DispatchTicket ticket = new DispatchTicket(Appeal.Priority.GREEN, title, details, orderNumber);
+        ticket.setEtaMinutes(hoursToVisit * 60);
+        ticket.setDispatchedServices(java.util.List.of(
+                "🚔 Ближайший патруль",
+                "👮 Участковый инспектор"
+        ));
+        return ticket;
     }
 
     /**

@@ -29,6 +29,12 @@ public class DispatchTicket {
     /** Идентификатор связанного обращения (из БД) */
     private long appealId;
 
+    /** Список вызванных служб для визуального отображения */
+    private java.util.List<String> dispatchedServices = new java.util.ArrayList<>();
+
+    /** ETA в минутах (0 = не применимо для GREEN) */
+    private int etaMinutes;
+
     // ─── Конструкторы ─────────────────────────────────────────────────────────
 
     /** Конструктор по умолчанию */
@@ -69,6 +75,12 @@ public class DispatchTicket {
 
     public long getAppealId() { return appealId; }
     public void setAppealId(long appealId) { this.appealId = appealId; }
+
+    public java.util.List<String> getDispatchedServices() { return dispatchedServices; }
+    public void setDispatchedServices(java.util.List<String> services) { this.dispatchedServices = services; }
+
+    public int getEtaMinutes() { return etaMinutes; }
+    public void setEtaMinutes(int eta) { this.etaMinutes = eta; }
 
     // ─── Вспомогательные методы ───────────────────────────────────────────────
 

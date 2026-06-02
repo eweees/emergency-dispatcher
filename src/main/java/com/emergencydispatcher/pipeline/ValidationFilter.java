@@ -45,15 +45,11 @@ public class ValidationFilter implements Filter<IncidentReport> {
     // ─── Частные методы валидации ─────────────────────────────────────────────
 
     /**
-     * Проверяет ФИО звонящего.
-     *
-     * @param name ФИО
-     * @throws FilterException если ФИО пустое или содержит менее 2 слов
+     * Проверяет ФИО звонящего — необязательное поле в SOS-режиме.
+     * Если указано — должно содержать минимум 2 слова.
      */
     private void validateCallerName(String name) throws FilterException {
-        if (name == null || name.isBlank()) {
-            throw new FilterException("Введите ФИО звонящего.");
-        }
+        if (name == null || name.isBlank()) return; // необязательно
         String[] parts = name.trim().split("\\s+");
         if (parts.length < MIN_NAME_WORDS) {
             throw new FilterException(
@@ -63,18 +59,11 @@ public class ValidationFilter implements Filter<IncidentReport> {
     }
 
     /**
-     * Проверяет формат номера телефона.
-     *
-     * <p>Допустимые форматы: «8XXXXXXXXXX» или «+7XXXXXXXXXX».
-     *
-     * @param phone номер телефона
-     * @throws FilterException если формат не соответствует требованиям
+     * Проверяет формат номера телефона — необязательное поле в SOS-режиме.
+     * Если указан — должен соответствовать формату 8XXXXXXXXXX или +7XXXXXXXXXX.
      */
     private void validatePhoneNumber(String phone) throws FilterException {
-        if (phone == null || phone.isBlank()) {
-            throw new FilterException("Введите номер телефона звонящего.");
-        }
-        // Убираем пробелы и дефисы для проверки
+        if (phone == null || phone.isBlank()) return; // необязательно
         String normalized = phone.replaceAll("[\\s\\-()]", "");
         if (!PHONE_PATTERN.matcher(normalized).matches()) {
             throw new FilterException(

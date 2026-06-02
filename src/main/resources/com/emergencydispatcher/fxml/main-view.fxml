@@ -104,6 +104,10 @@
                             onAction="#onOpenJournal"
                             styleClass="btn-journal"
                             maxWidth="Infinity"/>
+                    <Button text="🚨 Вернуться на SOS-экран"
+                            onAction="#onSosMode"
+                            styleClass="btn-sos-back"
+                            maxWidth="Infinity"/>
 
                 </VBox>
 

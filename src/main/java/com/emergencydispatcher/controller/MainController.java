@@ -188,6 +188,14 @@ public class MainController implements Initializable {
     }
 
     /**
+     * Возвращает на SOS-экран.
+     */
+    @FXML
+    private void onSosMode() {
+        com.emergencydispatcher.EmergencyApplication.showSosScreen();
+    }
+
+    /**
      * Открывает экран журнала обращений.
      */
     @FXML

@@ -41,6 +41,11 @@ public class YellowHandler {
         int eta = 15 + random.nextInt(16); // 15–30 минут
         int queueNumber = 1 + random.nextInt(5);
 
+        String callerLine = report.getCallerName().isBlank() ? "Анонимно (SOS)" : report.getCallerName();
+        String phoneLine  = report.getPhoneNumber().isBlank() ? "не указан" : report.getPhoneNumber();
+        String descLine   = report.getDescription().isBlank() ? "" :
+                "\nОписание:    " + report.getDescription();
+
         String title = "🟡 СРОЧНЫЙ ВЫЗОВ — РЕАГИРОВАНИЕ ДО 30 МИН";
 
         String details = String.format("""
@@ -48,25 +53,25 @@ public class YellowHandler {
                 НАРЯД № %s
                 ПРИОРИТЕТ: 🟡 YELLOW — СРОЧНЫЙ
                 ═══════════════════════════════════════════
-                
+
                 📋 ДАННЫЕ ЗВОНЯЩЕГО
                 ───────────────────────────────────────────
                 ФИО:         %s
                 Телефон:     %s
-                Адрес:       %s
-                
+                Адрес:       %s%s
+
                 📊 ОЦЕНКА ПРОИСШЕСТВИЯ
                 ───────────────────────────────────────────
                 Тип(-ы):     %s
                 Балл:        %d (срочный)
                 Пострадавшие: %s
-                
+
                 🚨 НАПРАВЛЕННЫЕ СЛУЖБЫ
                 ───────────────────────────────────────────
                 🚔 Полиция (102)            — НАЗНАЧЕНА
                 🔧 Аварийная служба ЖКХ    — УВЕДОМЛЕНА
                 📞 Позиция в очереди: #%d
-                
+
                 ⏱ ETA: %d минут
                 ───────────────────────────────────────────
                 ⚠ СТАТУС: ОЖИДАНИЕ ВЫЕЗДА
@@ -74,9 +79,10 @@ public class YellowHandler {
                 ═══════════════════════════════════════════
                 """,
                 orderNumber,
-                report.getCallerName(),
-                report.getPhoneNumber(),
+                callerLine,
+                phoneLine,
                 report.getAddress(),
+                descLine,
                 report.incidentsToString(),
                 report.getTotalScore(),
                 report.victimsToString(),
@@ -85,7 +91,13 @@ public class YellowHandler {
                 appeal.getFormattedDate()
         );
 
-        return new DispatchTicket(Appeal.Priority.YELLOW, title, details, orderNumber);
+        DispatchTicket ticket = new DispatchTicket(Appeal.Priority.YELLOW, title, details, orderNumber);
+        ticket.setEtaMinutes(eta);
+        ticket.setDispatchedServices(java.util.List.of(
+                "🚔 Полиция 102",
+                "🔧 Аварийная служба ЖКХ"
+        ));
+        return ticket;
     }
 
     /**

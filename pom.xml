@@ -52,6 +52,13 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- JavaFX WebView — для карты Leaflet/OpenStreetMap -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>21.0.6</version>
+        </dependency>
+
         <!-- Apache PDFBox — генерация PDF с поддержкой кириллицы -->
         <dependency>
             <groupId>org.apache.pdfbox</groupId>

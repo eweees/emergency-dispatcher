@@ -60,6 +60,7 @@ public class UrgencyScaleConfig {
                 new UrgencyData("Вооружённое нападение / стрельба",     SCORE_CRITICAL),
                 new UrgencyData("Обрушение здания / завал людей",       SCORE_CRITICAL),
                 new UrgencyData("Утечка газа / взрыв",                  SCORE_CRITICAL),
+                new UrgencyData("Требуется медицинская помощь",         SCORE_CRITICAL),
 
                 // ── Срочные (3 балла) ─────────────────────────────────────────
                 new UrgencyData("ДТП без пострадавших (материальный ущерб)", SCORE_URGENT),

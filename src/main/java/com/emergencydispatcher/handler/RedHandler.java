@@ -41,6 +41,11 @@ public class RedHandler {
         String orderNumber = generateOrderNumber();
         int eta = 5 + random.nextInt(6); // 5–10 минут
 
+        String callerLine = report.getCallerName().isBlank() ? "Анонимно (SOS)" : report.getCallerName();
+        String phoneLine  = report.getPhoneNumber().isBlank() ? "не указан" : report.getPhoneNumber();
+        String descLine   = report.getDescription().isBlank() ? "" :
+                "\nОписание:    " + report.getDescription();
+
         String title = "🔴 ЭКСТРЕННОЕ РЕАГИРОВАНИЕ — УГРОЗА ЖИЗНИ";
 
         String details = String.format("""
@@ -48,26 +53,26 @@ public class RedHandler {
                 НАРЯД № %s
                 ПРИОРИТЕТ: 🔴 RED — УГРОЗА ЖИЗНИ
                 ═══════════════════════════════════════════
-                
+
                 📋 ДАННЫЕ ЗВОНЯЩЕГО
                 ───────────────────────────────────────────
                 ФИО:         %s
                 Телефон:     %s
-                Адрес:       %s
-                
+                Адрес:       %s%s
+
                 📊 ОЦЕНКА ПРОИСШЕСТВИЯ
                 ───────────────────────────────────────────
                 Тип(-ы):     %s
                 Балл:        %d (критический)
                 Пострадавшие: %s
-                
+
                 🚨 НАПРАВЛЕННЫЕ СЛУЖБЫ
                 ───────────────────────────────────────────
                 🚒 Пожарная служба (101) — ВЫЕХАЛА
                 🚑 Скорая помощь (103)   — ВЫЕХАЛА
                 🚔 Полиция (102)         — ВЫЕХАЛА
                 🛡 Росгвардия            — УВЕДОМЛЕНА
-                
+
                 ⏱ ETA: %d минут
                 ───────────────────────────────────────────
                 ⚠ СТАТУС: АКТИВНЫЙ НАРЯД
@@ -75,9 +80,10 @@ public class RedHandler {
                 ═══════════════════════════════════════════
                 """,
                 orderNumber,
-                report.getCallerName(),
-                report.getPhoneNumber(),
+                callerLine,
+                phoneLine,
                 report.getAddress(),
+                descLine,
                 report.incidentsToString(),
                 report.getTotalScore(),
                 report.victimsToString(),
@@ -85,7 +91,15 @@ public class RedHandler {
                 appeal.getFormattedDate()
         );
 
-        return new DispatchTicket(Appeal.Priority.RED, title, details, orderNumber);
+        DispatchTicket ticket = new DispatchTicket(Appeal.Priority.RED, title, details, orderNumber);
+        ticket.setEtaMinutes(eta);
+        ticket.setDispatchedServices(java.util.List.of(
+                "🚒 Пожарная служба 101",
+                "🚑 Скорая помощь 103",
+                "🚔 Полиция 102",
+                "🛡 Росгвардия"
+        ));
+        return ticket;
     }
 
     /**

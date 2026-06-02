@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.emergencydispatcher.controller.WizardController"
+            styleClass="root-pane">
+
+    <!-- ═══════════ ШАПКА — прогресс ═══════════ -->
+    <top>
+        <VBox styleClass="wizard-header">
+            <Label fx:id="categoryLabel" text="Пожар" styleClass="wizard-category-label"/>
+            <HBox spacing="8" alignment="CENTER">
+                <HBox.margin><Insets top="8"/></HBox.margin>
+                <Label fx:id="step1Dot" text="● Шаг 1: Место" styleClass="wizard-step-active"/>
+                <Label text="━━━━" styleClass="wizard-step-sep"/>
+                <Label fx:id="step2Dot" text="○ Шаг 2: Детали" styleClass="wizard-step-inactive"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- ═══════════ КОНТЕНТ ═══════════ -->
+    <center>
+        <StackPane fx:id="contentStack">
+
+            <!-- ── Шаг 1: Карта ── -->
+            <VBox fx:id="step1Panel" spacing="0" styleClass="wizard-step-panel">
+
+                <Label text="📍 Укажите место происшествия"
+                       styleClass="wizard-step-title">
+                    <VBox.margin><Insets top="12" right="16" bottom="8" left="16"/></VBox.margin>
+                </Label>
+
+                <!-- WebView карты -->
+                <WebView fx:id="mapView" VBox.vgrow="ALWAYS"
+                         minHeight="360" prefHeight="380"/>
+
+                <!-- Адресная строка под картой -->
+                <HBox spacing="8" alignment="CENTER_LEFT" styleClass="address-bar-box">
+                    <HBox.margin><Insets top="0"/></HBox.margin>
+                    <Label text="Адрес:" styleClass="field-label"/>
+                    <TextField fx:id="addressField"
+                               promptText="Нажмите на карту или используйте GPS"
+                               styleClass="input-field address-field"
+                               HBox.hgrow="ALWAYS"/>
+                    <Button text="📍 GPS"
+                            onAction="#onLocateMe"
+                            styleClass="btn-gps"/>
+                </HBox>
+
+            </VBox>
+
+            <!-- ── Шаг 2: Детали ── -->
+            <VBox fx:id="step2Panel" spacing="16" styleClass="wizard-step-panel"
+                  visible="false" managed="false">
+                <VBox.margin><Insets top="20" right="32" bottom="20" left="32"/></VBox.margin>
+
+                <Label text="📋 Уточните детали (необязательно)"
+                       styleClass="wizard-step-title"/>
+
+                <!-- Пострадавшие -->
+                <VBox spacing="8" styleClass="form-panel">
+                    <CheckBox fx:id="hasVictimsCheck"
+                              text="Есть пострадавшие на месте"
+                              styleClass="victims-check"/>
+                    <HBox fx:id="victimsCountBox" spacing="10" alignment="CENTER_LEFT"
+                          visible="false" managed="false">
+                        <Label text="Количество:" styleClass="field-label"/>
+                        <Spinner fx:id="victimsSpinner" prefWidth="80"
+                                 styleClass="victims-spinner"/>
+                        <Label text="чел." styleClass="hint-label"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Телефон -->
+                <VBox spacing="4">
+                    <Label text="Номер телефона для связи" styleClass="field-label"/>
+                    <TextField fx:id="phoneField"
+                               promptText="89001234567 (необязательно)"
+                               styleClass="input-field"/>
+                </VBox>
+
+                <!-- Краткое описание -->
+                <VBox spacing="4" VBox.vgrow="ALWAYS">
+                    <Label text="Кратко опишите ситуацию" styleClass="field-label"/>
+                    <TextArea fx:id="descriptionField"
+                              promptText="Например: загорелась кухня, люди на улице..."
+                              wrapText="true"
+                              prefRowCount="4"
+                              styleClass="input-field"/>
+                </VBox>
+
+                <!-- Статус -->
+                <Label fx:id="statusLabel" text="" styleClass="status-label status-ok"
+                       wrapText="true" visible="false" managed="false"/>
+
+            </VBox>
+
+        </StackPane>
+    </center>
+
+    <!-- ═══════════ НАВИГАЦИЯ ═══════════ -->
+    <bottom>
+        <HBox spacing="12" styleClass="wizard-footer" alignment="CENTER_RIGHT">
+            <HBox.margin>
+                <Insets top="12" right="16" bottom="12" left="16"/>
+            </HBox.margin>
+
+            <Button fx:id="backButton"
+                    text="← Назад"
+                    onAction="#onBack"
+                    styleClass="btn-clear"
+                    visible="false" managed="false"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Button fx:id="nextButton"
+                    text="Далее →"
+                    onAction="#onNext"
+                    styleClass="btn-submit"/>
+
+            <Button fx:id="submitButton"
+                    text="🚨 Вызвать помощь!"
+                    onAction="#onSubmit"
+                    styleClass="btn-sos-submit"
+                    visible="false" managed="false"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

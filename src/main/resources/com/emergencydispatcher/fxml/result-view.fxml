@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.emergencydispatcher.controller.ResultController"
+            styleClass="root-pane">
+
+    <!-- ═══════════ БАННЕР ПРИОРИТЕТА ═══════════ -->
+    <top>
+        <VBox fx:id="priorityBanner" alignment="CENTER" styleClass="result-banner-red">
+            <Label fx:id="bannerIcon" text="🚨" styleClass="result-banner-icon"/>
+            <Label fx:id="bannerTitle" text="ПОМОЩЬ ВЫЗВАНА!" styleClass="result-banner-title"/>
+            <Label fx:id="bannerSub" text="Экстренные службы уже едут к вам"
+                   styleClass="result-banner-sub"/>
+        </VBox>
+    </top>
+
+    <!-- ═══════════ ОСНОВНАЯ ЧАСТЬ ═══════════ -->
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="main-scroll">
+            <VBox spacing="16">
+                <VBox.margin>
+                    <Insets top="16" right="20" bottom="16" left="20"/>
+                </VBox.margin>
+
+                <!-- Карточки служб -->
+                <Label text="Направленные службы" styleClass="section-title"/>
+                <VBox fx:id="servicesBox" spacing="10"/>
+
+                <Separator/>
+
+                <!-- ETA и адрес -->
+                <HBox spacing="24" alignment="CENTER">
+                    <VBox alignment="CENTER" styleClass="result-info-card" HBox.hgrow="ALWAYS"
+                          maxWidth="Infinity">
+                        <Label fx:id="etaLabel" text="—" styleClass="result-eta-number"/>
+                        <Label text="время прибытия" styleClass="result-info-hint"/>
+                    </VBox>
+                    <VBox alignment="CENTER" styleClass="result-info-card" HBox.hgrow="ALWAYS"
+                          maxWidth="Infinity">
+                        <Label fx:id="orderLabel" text="—" styleClass="result-order-number"/>
+                        <Label text="номер наряда" styleClass="result-info-hint"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Адрес -->
+                <VBox spacing="4" styleClass="result-address-box">
+                    <Label text="📍 Место происшествия" styleClass="field-label"/>
+                    <Label fx:id="addressLabel" text="—" styleClass="result-address-text"
+                           wrapText="true"/>
+                </VBox>
+
+                <!-- Рекомендации -->
+                <VBox spacing="6" styleClass="result-tips-box">
+                    <Label text="Что делать пока едет помощь:" styleClass="field-label"/>
+                    <Label fx:id="tipsLabel"
+                           text="• Оставайтесь на связи\n• Держитесь в безопасном месте\n• При ухудшении — повторно вызовите 112"
+                           styleClass="result-tips-text" wrapText="true"/>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <!-- ═══════════ КНОПКИ ═══════════ -->
+    <bottom>
+        <HBox spacing="12" styleClass="ticket-footer" alignment="CENTER_RIGHT">
+            <HBox.margin>
+                <Insets top="12" right="16" bottom="12" left="16"/>
+            </HBox.margin>
+
+            <Button fx:id="savePdfButton"
+                    text="📄 Сохранить PDF"
+                    onAction="#onSavePdf"
+                    styleClass="btn-pdf"/>
+
+            <Button text="📞 Новый вызов"
+                    onAction="#onNewCall"
+                    styleClass="btn-submit"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
