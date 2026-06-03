@@ -315,7 +315,8 @@ ValidationFilter
 
 
 ## Use Case диаграмма
-<img width="1153" height="742" alt="image" src="https://github.com/user-attachments/assets/2d2a8981-8f30-4df0-a30c-d5b811ea6362" />
+<img width="625" height="581" alt="Диаграмма без названия drawio" src="https://github.com/user-attachments/assets/70804295-c680-41a8-8523-401a2b66d178" />
+
 
 ## Архитектура «Каналы и фильтры»
 <img width="790" height="1178" alt="image" src="https://github.com/user-attachments/assets/0e470307-abee-4b16-b1a7-b6b5de933251" />
